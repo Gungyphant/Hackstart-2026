@@ -1,7 +1,13 @@
 import pygame as py
+import math
 from globals import WIDTH, HEIGHT, RADIUS, ENTITIES, FPS
 from player import Player, Bullet, BULLETS
 from enemy import Enemy, ENEMIES
+
+def determine_coords(distance, angle):
+    x = WIDTH // 2 + distance * math.cos(angle)
+    y = HEIGHT // 2 + distance * math.sin(angle)
+    return (x,y)
 
 py.init()
 screen = py.display.set_mode((WIDTH, HEIGHT))
@@ -16,7 +22,7 @@ radar = py.transform.scale(radar, (RADIUS * 2,RADIUS * 2))
 signal = py.image.load("Radar signal.png")
 signal = py.transform.scale(signal, (RADIUS * 2,RADIUS * 2))
 
-radar_speed = -0.01
+radar_speed = -0.02
 radar_angle = 0
 
 while running:
@@ -32,13 +38,14 @@ while running:
         entity.update(dt)
 
     radar_angle += radar_speed * dt
+    radar_angle %= 360
 
     screen.fill((0, 0, 0))
 
     rotated_radar = py.transform.rotate(signal, radar_angle)
     rotated_coords = rotated_radar.get_rect(center=signal.get_rect(center=(WIDTH/2,HEIGHT/2)).center)
     screen.blit(rotated_radar, rotated_coords)
-    screen.blit(radar, (50, 50))
+    screen.blit(radar, (WIDTH // 2 - RADIUS, HEIGHT // 2 - RADIUS))
 
     py.display.flip()
     dt = clock.tick(FPS)
