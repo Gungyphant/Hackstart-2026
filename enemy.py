@@ -11,14 +11,14 @@ class Enemy(Entity):
         self.initial_angle = initial_angle
         self.seen_age = float("inf")
         self.opacity = 0
+        self.shown_angle = 0
+        self.shown_distance = float("inf")
 
     def update(self, dt):
         self.angle -= dt / 10000
         self.distance = 100 * (self.angle + 4.5 - self.initial_angle)
         self.seen_age += dt
         self.opacity = 255 * math.e ** -(self.seen_age / 10)
-        self.shown_angle = 0
-        self.shown_distance = float("inf")
 
         for bullet in BULLETS:
             if are_colliding(self, bullet):

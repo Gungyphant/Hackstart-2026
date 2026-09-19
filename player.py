@@ -39,7 +39,7 @@ class Bullet(Entity):
         return f"Bullet at ({self.distance}, {self.angle}ᶜ)"
 
     def delete(self):
-        object_reuse(BULLETS, dead_bullets, Bullet)[1]()
+        object_reuse(BULLETS, dead_bullets, Bullet)[1](self)
 
 
 if __name__ == '__main__':
