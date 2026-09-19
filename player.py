@@ -5,13 +5,16 @@ class Player(Entity):
     """Class for the player, containing the angle at which bullets will be fired"""
     def __init__(self):
         super().__init__(0, 0, 19)
+        self.cooldown = 0
 
     def fire_bullet(self):
         """Fires a bullet in the direction the player is pointing"""
-        object_reuse(BULLETS, dead_bullets, Bullet)[0](self.angle)
+        if self.cooldown > 0:
+            object_reuse(BULLETS, dead_bullets, Bullet)[0](self.angle)
+            self.cooldown = 500  # ms
 
-    # def __repr__(self):
-    #     return f"Player()"
+    def update(self, dt: float):
+        self.cooldown -= dt
 
     def __str__(self):
         return f"Player at (0, {self.angle}ᶜ)"
