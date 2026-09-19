@@ -12,6 +12,7 @@ class Entity:
         self.angle = initial_angle
         self.distance = initial_distance
         self.size = size  # px
+        self.exists = True
         ENTITIES.append(self)
 
     def update(self, dt: float):
@@ -28,8 +29,10 @@ def object_reuse(active_list: list[object], inactive_list: list[object], object:
         active_list.append(new_object)
 
     def remove(self):
-        active_list.remove(self)
-        inactive_list.append(self)
+        self.distance = float("inf")
+        self.exists = False
+        # active_list.remove(self)
+        # inactive_list.append(self)
 
     return create, remove
 

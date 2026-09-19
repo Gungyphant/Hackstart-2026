@@ -15,6 +15,7 @@ class Enemy(Entity):
         self.shown_distance = float("inf")
 
     def update(self, dt):
+        if not self.exists: return
         self.angle -= dt / 10000
         self.distance = 100 * (self.angle + 4.5 - self.initial_angle)
         self.seen_age += dt

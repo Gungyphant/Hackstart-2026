@@ -24,7 +24,7 @@ class Bullet(Entity):
     def __init__(self, initial_angle: float):
         assert 0 <= initial_angle < 360, f"Invalid initial angle: {initial_angle}"
         super().__init__(initial_angle, 0, 50)
-        self.speed = 10  # units per second
+        self.speed = 500  # px per second
 
     def update(self, dt):
         self.distance += dt/1000 * self.speed
