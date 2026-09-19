@@ -45,13 +45,14 @@ while running:
         if event.type == py.KEYDOWN:
             if event.key == py.K_SPACE:
                 turret.fire_bullet()
-        pressed = py.key.get_pressed()
-        if pressed[py.K_RIGHT] or pressed[py.K_d]:
-            turret.angle += math.pi / 32
-            turret.angle %= 360
-        elif pressed[py.K_LEFT] or pressed[py.K_a]:
-            turret.angle -= math.pi / 32
-            turret.angle %= 360
+
+    pressed = py.key.get_pressed()
+    if pressed[py.K_RIGHT] or pressed[py.K_d]:
+        turret.angle += math.pi / 256
+        turret.angle %= 360
+    elif pressed[py.K_LEFT] or pressed[py.K_a]:
+        turret.angle -= math.pi / 256
+        turret.angle %= 360
 
     for entity in ENTITIES:
         entity.update(dt)
@@ -80,7 +81,7 @@ while running:
 
     for bullet in BULLETS:
         if bullet.exists:
-            print(bullet.angle)
+            # print(bullet.angle)
             rotated_bullet = py.transform.rotate(bullet_img, math.degrees(bullet.angle) - 90)
             rotated_coords = rotated_bullet.get_rect(center=determine_coords(bullet.distance, bullet.angle))
             screen.blit(rotated_bullet, rotated_coords)
