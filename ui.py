@@ -5,10 +5,12 @@ from enemy import Enemy, ENEMIES
 
 py.init()
 screen = py.display.set_mode((WIDTH, HEIGHT))
+py.display.set_caption("Untitled Radar Game")
 clock = py.time.Clock()
 running = True
 dt = 0
 turret = Player()
+radar = py.image.load("Rdara.png")
 
 while running:
 
@@ -22,7 +24,7 @@ while running:
     for entity in ENTITIES:
         entity.update(dt)
 
-    
+
 
     screen.fill((0, 0, 0))
 
