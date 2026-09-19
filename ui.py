@@ -1,4 +1,5 @@
 import pygame as py
+from globalvars import WIDTH, HEIGHT, RADIUS
 
 def draw(screen):
     screen.fill((0,0,0))
