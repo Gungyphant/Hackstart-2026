@@ -3,8 +3,6 @@ import pygame as py
 def draw(screen):
     screen.fill((0,0,0))
 
-WIDTH, HEIGHT = 1000,1000
-
 py.init()
 screen = py.display.set_mode((WIDTH, HEIGHT))
 clock = py.time.Clock()
