@@ -6,7 +6,7 @@ dead_enemies = []
 class Enemy(Entity):
     """Class for enemies, containing their position and direction of movement"""
     def __init__(self, initial_angle):
-        super().__init__(initial_angle, RADIUS)
+        super().__init__(initial_angle, RADIUS, 25)
         self.initial_angle = initial_angle
 
     def update(self, dt):

@@ -5,11 +5,11 @@ from decimal import Decimal
 class Player(Entity):
     """Class for the player, containing the angle at which bullets will be fired"""
     def __init__(self):
-        super().__init__(0, 0)
+        super().__init__(0, 0, 19)
 
     def fire_bullet(self):
         """Fires a bullet in the direction the player is pointing"""
-        object_reuse(BULLETS, dead_bullets, Bullet)[0]()
+        object_reuse(BULLETS, dead_bullets, Bullet)[0](self.angle)
 
     # def __repr__(self):
     #     return f"Player()"
@@ -24,7 +24,7 @@ class Bullet(Entity):
     """Class for bullets, containing the angle they are moving and their distance"""
     def __init__(self, initial_angle: float):
         assert 0 <= initial_angle < 360, f"Invalid initial angle: {initial_angle}"
-        super().__init__(initial_angle, 0)
+        super().__init__(initial_angle, 0, 50)
         self.speed = 10  # units per second
 
     def update(self, dt):
