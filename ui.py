@@ -2,7 +2,7 @@ import pygame as py
 import math
 from globals import WIDTH, HEIGHT, RADIUS, ENTITIES, FPS
 from player import Player, Bullet, BULLETS
-from enemy import Enemy, ENEMIES
+from enemy import Enemy, ENEMIES, spawn_enemy
 
 def determine_coords(distance, angle):
     x = WIDTH // 2 + distance * math.cos(angle)
@@ -26,6 +26,8 @@ bullet_img = py.image.load("bullet.png")
 radar_speed = -0.02
 radar_angle = 0
 
+spawn_enemy(1)
+
 while running:
 
     for event in py.event.get():
@@ -48,8 +50,14 @@ while running:
     screen.blit(rotated_radar, rotated_coords)
     screen.blit(radar, (WIDTH // 2 - RADIUS, HEIGHT // 2 - RADIUS))
 
+    # py.draw.circle(screen, (255, 0, 255), determine_coords(300, math.radians(270-radar_angle)), 5)
+    # print(radar_angle)
     for enemy in ENEMIES:
-        py.draw.circle(screen, (255,255,0), determine_coords(enemy.distance,enemy.angle), 5)
+        # print(math.degrees(2 * math.pi - (enemy.angle + math.pi / 2)), radar_angle)
+        # print(enemy.angle, math.radians(270-radar_angle))
+        # print(abs(enemy.angle - math.radians(radar_angle)))
+        if abs(math.degrees(2 * math.pi - (enemy.angle + math.pi / 2)) - radar_angle) <= 5:
+            py.draw.circle(screen, (255,255,0), determine_coords(enemy.distance,enemy.angle), 5)
 
     for bullet in BULLETS:
         rotated_bullet = py.transform.rotate(bullet_img, bullet.angle)
