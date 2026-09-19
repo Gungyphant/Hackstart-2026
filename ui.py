@@ -1,8 +1,12 @@
 import pygame as py
 import math
-from globals import WIDTH, HEIGHT, RADIUS, ENTITIES, FPS
+import decimal
+from globals import WIDTH, HEIGHT, RADIUS, ENTITIES, FPS, are_colliding
 from player import Player, Bullet, BULLETS
 from enemy import Enemy, ENEMIES, spawn_enemy
+
+def game_over():
+    print("Game Over")
 
 def determine_coords(distance, angle):
     x = WIDTH // 2 + distance * math.cos(angle)
@@ -56,15 +60,19 @@ while running:
         # print(math.degrees(2 * math.pi - (enemy.angle + math.pi / 2)), radar_angle)
         # print(enemy.angle, math.radians(270-radar_angle))
         # print(abs(enemy.angle - math.radians(radar_angle)))
-        if abs(math.degrees(2 * math.pi - (enemy.angle + math.pi / 2)) - radar_angle) <= 5:
-            py.draw.circle(screen, (255,255,0), determine_coords(enemy.distance,enemy.angle), 5)
+        if abs(math.degrees(2 * math.pi - (enemy.angle + math.pi / 2)) - radar_angle) <= 2:
+            enemy.seen()
+        if are_colliding(enemy, turret):
+            game_over()
+        py.draw.circle(screen, (0, 255, 0), determine_coords(enemy.shown_distance, enemy.shown_angle), 10)
+
+        py.draw.circle(screen, (255, 255, 0), determine_coords(enemy.distance, enemy.angle), 10)
 
     for bullet in BULLETS:
+        screen.blit(screen, bullet_img.get_rect(center=determine_coords(bullet.distance, bullet.angle)))
         rotated_bullet = py.transform.rotate(bullet_img, bullet.angle)
-        rotated_coords = rotated_bullet.get_rect(center=bullet.position.get_rect(center=(WIDTH / 2, HEIGHT / 2)).center)
-        screen.blit(rotated_bullet, bullet_img.get_rect(center=bullet.position))
-
-    screen.blit(bullet_img, (500,500))
+        rotated_coords = rotated_bullet.get_rect(center=determine_coords(bullet.distance, bullet.angle))
+        screen.blit(screen, bullet_img.get_rect(center=rotated_coords))
 
     py.display.flip()
     dt = clock.tick(FPS)
