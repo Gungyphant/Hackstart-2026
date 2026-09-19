@@ -10,7 +10,7 @@ class Enemy(Entity):
         self.initial_angle = initial_angle
 
     def update(self, dt):
-        self.angle -= dt
+        self.angle -= dt / 10000
         self.distance = 100 * (self.angle + 4.5 - self.initial_angle)
 
     def __repr__(self):
