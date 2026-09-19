@@ -3,7 +3,7 @@ import math
 import decimal
 from globals import WIDTH, HEIGHT, RADIUS, ENTITIES, FPS, are_colliding
 from player import Player, Bullet, BULLETS
-from enemy import Enemy, ENEMIES, spawn_enemy
+from enemy import Enemy, ENEMIES, spawn_enemy, EXPLOSIONS
 
 def game_over():
     print("Game Over")
@@ -26,6 +26,7 @@ radar = py.transform.scale(radar, (RADIUS * 2,RADIUS * 2))
 signal = py.image.load("Radar signal.png")
 signal = py.transform.scale(signal, (RADIUS * 2,RADIUS * 2))
 bullet_img = py.image.load("bullet.png")
+explosion_img = py.image.load("Blast.png")
 
 radar_speed = -0.02
 radar_angle = 0
@@ -69,10 +70,14 @@ while running:
         py.draw.circle(screen, (255, 255, 0), determine_coords(enemy.distance, enemy.angle), 10)
 
     for bullet in BULLETS:
-        screen.blit(screen, bullet_img.get_rect(center=determine_coords(bullet.distance, bullet.angle)))
-        rotated_bullet = py.transform.rotate(bullet_img, bullet.angle)
-        rotated_coords = rotated_bullet.get_rect(center=determine_coords(bullet.distance, bullet.angle))
-        screen.blit(screen, bullet_img.get_rect(center=rotated_coords))
+        py.draw.circle(screen, (0, 255, 0), determine_coords(bullet.distance, bullet.angle), bullet.size)
+
+    for explosion in EXPLOSIONS:
+        if explosion.exists:
+            coords = determine_coords(explosion.distance, explosion.angle)
+            coords = (coords[0] - 31, coords[1] - 30)
+            screen.blit(explosion_img, coords)
+
 
     py.display.flip()
     dt = clock.tick(FPS)

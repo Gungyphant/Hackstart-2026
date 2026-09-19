@@ -22,7 +22,7 @@ dead_bullets = []  # Bullets which have hit the edge / an enemy and should not b
 class Bullet(Entity):
     """Class for bullets, containing the angle they are moving and their distance"""
     def __init__(self, initial_angle: float):
-        assert 0 <= initial_angle < 360, f"Invalid initial angle: {initial_angle}"
+        # assert 0 <= initial_angle < 360, f"Invalid initial angle: {initial_angle}"
         super().__init__(initial_angle, 0, 50)
         self.speed = 500  # px per second
 

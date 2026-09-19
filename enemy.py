@@ -73,6 +73,8 @@ class Explosion(Entity):
 
     def update(self, dt: float):
         self.time_to_live -= dt
+        if self.time_to_live <= 0:
+            self.exists = False
 
     def __repr__(self):
         return str(self)
