@@ -17,7 +17,7 @@ class Enemy(Entity):
         return str(self)#f"Enemy({self.angle})"
 
     def __str__(self):
-        return f"Enemy at ({self.distance}, {self.angle}°), moving in direction {self.direction}°"
+        return f"Enemy at ({self.distance}, {self.angle}ᶜ), moving in a spiral from {self.initial_angle}ᶜ"
 
 spawn_enemy = object_reuse(ENEMIES, dead_enemies, Enemy)[0]
 
@@ -35,7 +35,7 @@ class Explosion(Entity):
         return str(self)
 
     def __str__(self):
-        return f"Explosion at ({self.distance}, {self.angle}°)"
+        return f"Explosion at ({self.distance}, {self.angle}ᶜ)"
 
 
 if __name__ == "__main__":
