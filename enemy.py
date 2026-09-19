@@ -27,8 +27,12 @@ class Enemy(Entity):
                 self.die()
 
     def die(self):
+        global score
         object_reuse(EXPLOSIONS, dead_explosions, Explosion)[0](self.angle, self.distance)
         object_reuse(ENEMIES, dead_enemies, Enemy)[1](self)
+        self.shown_distance = float("inf")
+        score += 1
+        print(f"Score: {score}")
 
     def seen(self):
         self.shown_angle = self.angle
