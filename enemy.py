@@ -9,10 +9,16 @@ class Enemy(Entity):
     def __init__(self, initial_angle):
         super().__init__(initial_angle, RADIUS, 25)
         self.initial_angle = initial_angle
+        self.seen_age = float("inf")
+        self.opacity = 0
 
     def update(self, dt):
         self.angle -= dt / 10000
         self.distance = 100 * (self.angle + 4.5 - self.initial_angle)
+        self.seen_age += dt
+        self.opacity = 255 * math.e ** -(self.seen_age / 10)
+        self.shown_angle = 0
+        self.shown_distance = float("inf")
 
         for bullet in BULLETS:
             if are_colliding(self, bullet):
@@ -23,31 +29,37 @@ class Enemy(Entity):
         object_reuse(EXPLOSIONS, dead_explosions, Explosion)[0](self.angle, self.distance)
         object_reuse(ENEMIES, dead_enemies, Enemy)[1](self)
 
+    def seen(self):
+        self.shown_angle = self.angle
+        self.shown_distance = self.distance
+        self.seen_age = 0
+        self.opacity = 255
+
     def __repr__(self):
         return str(self)#f"Enemy({self.angle})"
 
     def __str__(self):
         return f"Enemy at ({self.distance}, {self.angle}ᶜ), moving in a spiral from {self.initial_angle}ᶜ"
 
-SHOWN_ENEMIES = []
-dead_shown_enemies = []
-
-class ShownEnemy(Entity):
-    """Class for the afterglow of enemy detections"""
-    def __init__(self, angle, distance):
-        super().__init__(angle, distance, 25)
-        self.opacity = 255
-        self.age = 0
-
-    def update(self, dt: float):
-        self.age += dt
-        self.opacity = 255 * math.e ** -(self.age/10)
-
-    def die(self):
-        object_reuse(SHOWN_ENEMIES, dead_shown_enemies, ShownEnemy)[1](self)
+# SHOWN_ENEMIES = []
+# dead_shown_enemies = []
+#
+# class ShownEnemy(Entity):
+#     """Class for the afterglow of enemy detections"""
+#     def __init__(self, angle, distance):
+#         super().__init__(angle, distance, 25)
+#         self.opacity = 255
+#         self.age = 0
+#
+#     def update(self, dt: float):
+#         self.age += dt
+#         self.opacity = 255 * math.e ** -(self.age/10)
+#
+#     def die(self):
+#         object_reuse(SHOWN_ENEMIES, dead_shown_enemies, ShownEnemy)[1](self)
 
 spawn_enemy = object_reuse(ENEMIES, dead_enemies, Enemy)[0]
-spawn_shown_enemy = object_reuse(SHOWN_ENEMIES, dead_shown_enemies, ShownEnemy)[0]
+# spawn_shown_enemy = object_reuse(SHOWN_ENEMIES, dead_shown_enemies, ShownEnemy)[0]
 
 EXPLOSIONS = []
 dead_explosions = []
