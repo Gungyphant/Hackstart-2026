@@ -30,6 +30,7 @@ class Enemy(Entity):
         return f"Enemy at ({self.distance}, {self.angle}ᶜ), moving in a spiral from {self.initial_angle}ᶜ"
 
 SHOWN_ENEMIES = []
+dead_shown_enemies = []
 
 class ShownEnemy(Entity):
     """Class for the afterglow of enemy detections"""
@@ -43,9 +44,10 @@ class ShownEnemy(Entity):
         self.opacity = 255 * math.e ** -(self.age/10)
 
     def die(self):
-        SHOWN_ENEMIES.remove(self)
+        object_reuse(SHOWN_ENEMIES, dead_shown_enemies, ShownEnemy)[1](self)
 
 spawn_enemy = object_reuse(ENEMIES, dead_enemies, Enemy)[0]
+spawn_shown_enemy = object_reuse(SHOWN_ENEMIES, dead_shown_enemies, ShownEnemy)[0]
 
 EXPLOSIONS = []
 dead_explosions = []
@@ -53,7 +55,7 @@ dead_explosions = []
 class Explosion(Entity):
     """Class for the explosions that appear when an enemy dies"""
     def __init__(self, angle, distance):
-        super().__init__(angle, distance)
+        super().__init__(angle, distance, 0)  # Explosions have no collision
         self.time_to_live = 500  # ms
 
     def update(self, dt: float):
