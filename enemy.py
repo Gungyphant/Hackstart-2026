@@ -7,16 +7,17 @@ class Enemy(Entity):
     """Class for enemies, containing their position and direction of movement"""
     def __init__(self, initial_angle):
         super().__init__(initial_angle, RADIUS)
-        self.direction = 0  # Direction enemy is moving  # TODO: randomly determine an initial angle that'll not go out
+        self.initial_angle = initial_angle
 
     def update(self, dt):
-        pass
+        self.angle -= dt
+        self.distance = 100 * (self.angle + 4.5 - self.initial_angle)
 
     def __repr__(self):
         return str(self)#f"Enemy({self.angle})"
 
     def __str__(self):
-        return f"Enemy at ({self.distance}, {self.angle}°), moving in direction {self.direction}°"
+        return f"Enemy at ({self.distance}, {self.angle}ᶜ), moving in a spiral from {self.initial_angle}ᶜ"
 
 spawn_enemy = object_reuse(ENEMIES, dead_enemies, Enemy)[0]
 
@@ -34,4 +35,14 @@ class Explosion(Entity):
         return str(self)
 
     def __str__(self):
-        return f"Explosion at ({self.distance}, {self.angle}°)"
+        return f"Explosion at ({self.distance}, {self.angle}ᶜ)"
+
+
+if __name__ == "__main__":
+    import time
+    last_time = time.time()
+    enemy = Enemy(1)
+    while True:
+        print(enemy)
+        enemy.update(time.time() - last_time)
+        last_time = time.time()

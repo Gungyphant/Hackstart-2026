@@ -15,7 +15,7 @@ class Player(Entity):
     #     return f"Player()"
 
     def __str__(self):
-        return f"Player at (0, {self.angle}°)"
+        return f"Player at (0, {self.angle}ᶜ)"
 
 BULLETS = []  # Global list of all bullets
 dead_bullets = []  # Bullets which have hit the edge / an enemy and should not be drawn, but the object will be reused
@@ -36,7 +36,7 @@ class Bullet(Entity):
         return str(self)#f"Bullet({self.angle})"
 
     def __str__(self):
-        return f"Bullet at ({self.distance}, {self.angle}°)"
+        return f"Bullet at ({self.distance}, {self.angle}ᶜ)"
 
     def delete(self):
         object_reuse(BULLETS, dead_bullets, Bullet)[1]()
