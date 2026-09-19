@@ -1,5 +1,6 @@
 WIDTH, HEIGHT = 1000,1000
 RADIUS = 450
+FPS = 60
 
 ENTITIES = []  # Global list of all entities
 
