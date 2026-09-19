@@ -1,5 +1,4 @@
 from globals import *
-from decimal import Decimal
 
 
 class Player(Entity):
@@ -28,7 +27,7 @@ class Bullet(Entity):
         self.speed = 10  # units per second
 
     def update(self, dt):
-        self.distance += Decimal(dt)/1000 * self.speed
+        self.distance += dt/1000 * self.speed
         if self.distance >= RADIUS:
             self.delete()
 
