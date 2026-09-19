@@ -20,6 +20,7 @@ clock = py.time.Clock()
 running = True
 dt = 0
 turret = Player()
+turret.angle = 0
 
 radar = py.image.load("Rdara.png")
 radar = py.transform.scale(radar, (RADIUS * 2,RADIUS * 2))
@@ -41,6 +42,13 @@ while running:
         if event.type == py.KEYDOWN:
             if event.key == py.K_SPACE:
                 turret.fire_bullet()
+        pressed = py.key.get_pressed()
+        if pressed[py.K_RIGHT] or pressed[py.K_d]:
+            turret.angle += math.pi / 32
+            turret.angle %= 360
+        elif pressed[py.K_LEFT] or pressed[py.K_a]:
+            turret.angle -= math.pi / 32
+            turret.angle %= 360
 
     for entity in ENTITIES:
         entity.update(dt)
@@ -67,17 +75,18 @@ while running:
             game_over()
         py.draw.circle(screen, (0, 255, 0), determine_coords(enemy.shown_distance, enemy.shown_angle), 10)
 
-        py.draw.circle(screen, (255, 255, 0), determine_coords(enemy.distance, enemy.angle), 10)
-
     for bullet in BULLETS:
-        py.draw.circle(screen, (0, 255, 0), determine_coords(bullet.distance, bullet.angle), bullet.size)
+        if bullet.exists:
+            print(bullet.angle)
+            rotated_bullet = py.transform.rotate(bullet_img, math.degrees(bullet.angle) - 90)
+            rotated_coords = rotated_bullet.get_rect(center=determine_coords(bullet.distance, bullet.angle))
+            screen.blit(rotated_bullet, rotated_coords)
 
     for explosion in EXPLOSIONS:
         if explosion.exists:
             coords = determine_coords(explosion.distance, explosion.angle)
             coords = (coords[0] - 31, coords[1] - 30)
             screen.blit(explosion_img, coords)
-
 
     py.display.flip()
     dt = clock.tick(FPS)
