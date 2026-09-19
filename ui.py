@@ -21,6 +21,7 @@ radar = py.image.load("Rdara.png")
 radar = py.transform.scale(radar, (RADIUS * 2,RADIUS * 2))
 signal = py.image.load("Radar signal.png")
 signal = py.transform.scale(signal, (RADIUS * 2,RADIUS * 2))
+bullet_img = py.image.load("bullet.png")
 
 radar_speed = -0.02
 radar_angle = 0
@@ -46,6 +47,16 @@ while running:
     rotated_coords = rotated_radar.get_rect(center=signal.get_rect(center=(WIDTH/2,HEIGHT/2)).center)
     screen.blit(rotated_radar, rotated_coords)
     screen.blit(radar, (WIDTH // 2 - RADIUS, HEIGHT // 2 - RADIUS))
+
+    for enemy in ENEMIES:
+        py.draw.circle(screen, (255,255,0), determine_coords(enemy.distance,enemy.angle), 5)
+
+    for bullet in BULLETS:
+        rotated_bullet = py.transform.rotate(bullet_img, bullet.angle)
+        rotated_coords = rotated_bullet.get_rect(center=bullet.position.get_rect(center=(WIDTH / 2, HEIGHT / 2)).center)
+        screen.blit(rotated_bullet, bullet_img.get_rect(center=bullet.position))
+
+    screen.blit(bullet_img, (500,500))
 
     py.display.flip()
     dt = clock.tick(FPS)
