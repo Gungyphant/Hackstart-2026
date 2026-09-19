@@ -1,3 +1,5 @@
+import random
+
 import pygame as py
 import math
 import decimal
@@ -32,9 +34,9 @@ explosion_img = py.image.load("Blast.png")
 radar_speed = -0.02
 radar_angle = 0
 
-spawn_enemy(1)
-
 while running:
+    if random.random() <= 0.01:
+        spawn_enemy(random.random() * 2 * math.pi)
 
     for event in py.event.get():
         if event.type == py.QUIT:

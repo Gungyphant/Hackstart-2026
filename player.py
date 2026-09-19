@@ -9,7 +9,7 @@ class Player(Entity):
 
     def fire_bullet(self):
         """Fires a bullet in the direction the player is pointing"""
-        if self.cooldown > 0:
+        if self.cooldown <= 0:
             object_reuse(BULLETS, dead_bullets, Bullet)[0](self.angle)
             self.cooldown = 500  # ms
 
