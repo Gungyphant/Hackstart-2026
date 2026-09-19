@@ -9,6 +9,7 @@ from enemy import Enemy, ENEMIES, spawn_enemy, EXPLOSIONS
 
 def game_over():
     print("Game Over")
+    exit()
 
 def determine_coords(distance, angle):
     x = WIDTH // 2 + distance * math.cos(angle)
