@@ -3,12 +3,12 @@ import random
 import pygame as py
 import math
 import decimal
-from globals import WIDTH, HEIGHT, RADIUS, ENTITIES, FPS, are_colliding
+from globals import WIDTH, HEIGHT, RADIUS, ENTITIES, FPS, are_colliding, score
 from player import Player, Bullet, BULLETS
 from enemy import Enemy, ENEMIES, spawn_enemy, EXPLOSIONS
 
 def game_over():
-    print("Game Over")
+    print(f"Your turret was destroyed! You defeated {score} enemies before you died.")
     exit()
 
 def determine_coords(distance, angle):
