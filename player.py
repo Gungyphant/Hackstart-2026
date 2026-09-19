@@ -1,4 +1,6 @@
 from globals import *
+from decimal import Decimal
+
 
 class Player(Entity):
     """Class for the player, containing the angle at which bullets will be fired"""
@@ -7,7 +9,13 @@ class Player(Entity):
 
     def fire_bullet(self):
         """Fires a bullet in the direction the player is pointing"""
-        pass
+        object_reuse(BULLETS, dead_bullets, Bullet)[0]()
+
+    # def __repr__(self):
+    #     return f"Player()"
+
+    def __str__(self):
+        return f"Player at (0, {self.angle}°)"
 
 BULLETS = []  # Global list of all bullets
 dead_bullets = []  # Bullets which have hit the edge / an enemy and should not be drawn, but the object will be reused
