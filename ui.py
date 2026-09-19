@@ -82,7 +82,7 @@ while running:
     for bullet in BULLETS:
         if bullet.exists:
             # print(bullet.angle)
-            rotated_bullet = py.transform.rotate(bullet_img, math.degrees(bullet.angle) - 90)
+            rotated_bullet = py.transform.rotate(bullet_img, -math.degrees(bullet.angle) - 90)
             rotated_coords = rotated_bullet.get_rect(center=determine_coords(bullet.distance, bullet.angle))
             screen.blit(rotated_bullet, rotated_coords)
 
